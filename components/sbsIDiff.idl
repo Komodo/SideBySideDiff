@@ -1,0 +1,11 @@
+#include "nsISupports.idl"
+#include "koIDocument.idl"
+
+[scriptable, uuid(3b50561f-f580-4935-ae1f-c5e4ed26191f)]
+interface sbsIDiff: nsISupports {
+    attribute AString cwd;
+    attribute boolean enable_syntax_highlighting;
+    wstring generateSbsDiff(in koIDiff diff);
+    AString filepathFromChunkId(in AString chunkid);
+    long diffLinenoFromChunkId(in AString chunkid);
+};

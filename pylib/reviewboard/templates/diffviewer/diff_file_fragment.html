@@ -1,0 +1,83 @@
+{% load i18n %}
+{% load difftags %}
+{% if standalone and error %}
+{{error}}
+{% endif %}
+{% if not standalone %}
+<table class="sidebyside{% if file.newfile %} newfile{% endif %}" id="file.{{file.id}}">
+ <colgroup>
+  <col class="line" />
+  <col class="left" />
+  <col class="line" />
+  <col class="right" />
+ </colgroup>
+ <thead>
+  <tr onClick="gotoAnchor('{{file.id}}');">
+   <th colspan="4">{{ file.dest_file }}</th>
+  </tr>
+  <tr>
+   <th colspan="2" class="rev">{{file.source_revision}}</th>
+   <th colspan="2" class="rev">{{file.dest_revision}}</th>
+  </tr>
+ </thead>
+{% endif %}
+{% if file.binary %}
+ <tbody class="binary">
+  <tr>
+   <td colspan="4">{% trans "This is a binary file. The content cannot be displayed." %}</td>
+  </tr>
+ </tbody>
+{% else %}
+{% for chunk in file.chunks %}
+
+{%  if chunk.collapsable and collapseall %}
+ <tbody class="collapsed" id="chunk-expand.{{file.id}}.{{forloop.counter}}">
+  <tr>
+   <th>...</th>
+   <td colspan="3">{{ chunk.numlines }} line{{chunk.numlines|pluralize}} hidden [<a href="#" onclick="javascript:expandChunkKomodo({{file.id}}, {{forloop.counter}}, {{ chunk.numlines }}); return false;">{% trans "Expand" %}</a>]</td>
+  </tr>
+ </tbody>
+
+ <tbody id="chunk.{{ file.id }}.{{ forloop.counter }}" style="display: none;">
+{% else %}
+ <tbody id="chunk.{{ file.id }}.{{ forloop.counter }}"{% ifnotequal chunk.change "equal" %} class="{{chunk.change}}"{% else %}{% if chunk.collapsable %} class="collapsable"{% endif %}{% endifnotequal %}>
+{% endif %}
+
+{% for line in chunk.lines %}
+  <tr line="{{line.0}}"{% ifnotequal chunk.change "equal" %} class="{% if forloop.first %}first{% endif %} {% if forloop.last %}last{% endif %}"{% endifnotequal %}>
+   <th class="left" colspan="1">{{line.1}}
+{% if forloop.first %}
+{% ifnotequal chunk.change 'equal' %}
+     <a name="{{file.id}}.{{chunk.index}}"/>
+{% endifnotequal %}
+{% endif %}
+   </th>
+{% ifequal chunk.change "replace" %}
+   <td class="left"><pre>{{ line.2|highlightregion:line.3|showextrawhitespace }}</pre></td>
+   <th class="right">{{line.4}}</th>
+   <td class="right"><pre>{{ line.5|highlightregion:line.6|showextrawhitespace }}</pre></td>
+{% else %}
+   <td class="left"><pre>{{ line.2|showextrawhitespace }}</pre></td>
+   <th class="right">{{line.4}}</th>
+   <td class="right"><pre>{{ line.5|showextrawhitespace }}</pre></td>
+{% endifequal %}
+  </tr>
+{% endfor %}
+
+ </tbody>
+
+{%  if chunk.collapsable and collapseall %}
+ <tbody class="collapsed" id="chunk-collapse.{{file.id}}.{{forloop.counter}}" style="display: none;">
+  <tr>
+   <th></th>
+   <td colspan="3">{{ chunk.numlines }} line{{chunk.numlines|pluralize}} shown [<a href="#" onclick="javascript:collapseChunkKomodo({{file.id}}, {{forloop.counter}}, {{ chunk.numlines }}); return false;">{% trans "Collapse" %}</a>]</td>
+  </tr>
+ </tbody>
+{% endif %}
+
+{% endfor %}
+{% endif %}
+
+{% if not standalone %}
+</table>
+{% endif %}

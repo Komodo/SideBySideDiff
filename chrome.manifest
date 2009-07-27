@@ -1,0 +1,3 @@
+content sbsdiff content/ xpcnativewrappers=yes contentaccessible=yes
+skin sbsdiff classic/1.0 pylib/reviewboard/htdocs/media/rb/css/
+overlay chrome://komodo/content/dialogs/diff.xul chrome://sbsdiff/content/diff-overlay.xul
