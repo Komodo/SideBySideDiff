@@ -39,6 +39,7 @@
 var g_diff_result = null;
 var g_diff_cwd = null;
 var g_sbsDiff = null;
+g_diffFormat = "contextual";
 
 
 // Overriding functionality - overrides the diff.js loadDiffResult function.
@@ -48,7 +49,9 @@ var loadDiffResult = function overwritten_loadDiffResult(result, cwd) {
     g_diff_result = result;
     g_diff_cwd = cwd;
     _original_loadDiffResult(result, cwd);
-    loadSBSDiff();
+    if (g_diffFormat == 'side-by-side') {
+        loadSBSDiff();
+    }
 }
 
 
@@ -97,11 +100,13 @@ function loadSBSDiff() {
 
 
 function changeDiffStyle(style) {
+    g_diffFormat = style;
     var deck = document.getElementById('deck');
     if (style == 'contextual') {
         deck.selectedIndex = 0;
     } else if (style == 'side-by-side') {
         deck.selectedIndex = 1;
+        loadSBSDiff();
     }
 }
 
@@ -160,16 +165,18 @@ function sbsEnableUI() {
         document.getElementById('enable_highlighting_checkbox').setAttribute('disabled', true);
     } else if (g_diff_cwd) {
         document.getElementById('enable_highlighting_checkbox').removeAttribute('disabled');
+        g_diffFormat = "side-by-side";
     }
     
 }
 
 function sbsOnload() {
-    var prefs = Components.classes["@mozilla.org/preferences-service;1"]
-                        .getService(Components.interfaces.nsIPrefService);
-    prefs = prefs.getBranch("extensions.sbsdiff.");
     var deck = document.getElementById('deck');
-    deck.selectedIndex = prefs.getIntPref("deck.selectedIndex");
+    if (g_diffFormat == "contextual") {
+        deck.selectedIndex = 0;
+    } else if (g_diffFormat == "side-by-side") {
+        deck.selectedIndex = 1;
+    }
     document.getElementById("diff_style_menulist").selectedIndex = deck.selectedIndex;
     sbsEnableUI();
 }
@@ -177,10 +184,20 @@ function sbsOnload() {
 function sbsOnunload() {
     var prefs = Components.classes["@mozilla.org/preferences-service;1"]
                         .getService(Components.interfaces.nsIPrefService);
-    prefs = prefs.getBranch("extensions.sbsdiff.");
-    var deck = document.getElementById('deck');
-    prefs.setIntPref("deck.selectedIndex", deck.selectedIndex);
+    var sbs_prefs = prefs.getBranch("extensions.sbsdiff.");
+    sbs_prefs.setCharPref("format", g_diffFormat);
 }
+
+(function() {
+    try {
+        var prefs = Components.classes["@mozilla.org/preferences-service;1"]
+                            .getService(Components.interfaces.nsIPrefService);
+        var sbs_prefs = prefs.getBranch("extensions.sbsdiff.");
+        g_diffFormat = sbs_prefs.getCharPref("format");
+    } catch (ex) {
+        // There are no prefs yet, leave as is.
+    }
+})();
 
 window.addEventListener("load", sbsOnload, false);
 window.addEventListener("unload", sbsOnunload, false);
