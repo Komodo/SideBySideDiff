@@ -39,7 +39,7 @@
 var g_diff_result = null;
 var g_diff_cwd = null;
 var g_sbsDiff = null;
-g_diffFormat = "contextual";
+var g_diffFormat = "contextual";
 
 
 // Overriding functionality - overrides the diff.js loadDiffResult function.
