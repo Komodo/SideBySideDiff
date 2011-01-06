@@ -68,6 +68,8 @@ function loadSBSDiff() {
     if (!g_diff_cwd) {
         // Cannot show full context diffs.
         document.getElementById('enable_highlighting_checkbox').setAttribute('disabled', 'true');
+    } else {
+        document.getElementById('enable_highlighting_checkbox').removeAttribute('disabled');
     }
     var html = g_sbsDiff.generateSbsDiff(koIDiff);
 
