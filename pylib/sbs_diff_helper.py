@@ -57,11 +57,11 @@ import tempfile
 from difflib import SequenceMatcher
 
 try:
-    from uriparse import URIToLocalPath
+    from uriparse import URIToPath
 except ImportError:
     import warnings
     warnings.warn("Could not import uriparse", ImportWarning)
-    def URIToLocalPath(uri):
+    def URIToPath(uri):
         return uri.split("file://", 1)[1]
 
 try:
@@ -524,13 +524,13 @@ class DiffItem(object):
     @property
     def source_file(self):
         if self.left_file_uri:
-            return URIToLocalPath(self.left_file_uri)
+            return URIToPath(self.left_file_uri)
         return ""
 
     @property
     def dest_file(self):
         if self.right_file_uri:
-            return URIToLocalPath(self.right_file_uri)
+            return URIToPath(self.right_file_uri)
         return ""
 
     # XXX - This is not portable. Need to replace this function, perhaps:
