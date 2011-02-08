@@ -7,7 +7,7 @@
 		<em:type>2</em:type> <!-- type=extension --> 
 		<em:id>sbsdiff@activestate.com</em:id>
 		<em:name>Side by Side Diffs</em:name>
-		<em:version>0.2</em:version>
+		<em:version>0.2.3</em:version>
 		<em:description>Provide side-by-side diffs in Komodo.</em:description>
 		<em:creator>Todd Whiteman</em:creator>
 		<em:iconURL>chrome://sbsdiff/content/sbsdiff.png</em:iconURL>
