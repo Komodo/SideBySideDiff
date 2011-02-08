@@ -73,6 +73,12 @@ function loadSBSDiff() {
     }
     var html = g_sbsDiff.generateSbsDiff(koIDiff);
 
+    // Convert Unicode into UTF-8.
+    var unicodeConverter = Components.classes["@mozilla.org/intl/scriptableunicodeconverter"]
+                           .createInstance(Components.interfaces.nsIScriptableUnicodeConverter);
+    unicodeConverter.charset = "UTF-8";
+    html = unicodeConverter.ConvertFromUnicode(html);
+
     // Get the extension's on-disk location.
     var MY_ID = "sbsdiff@activestate.com";
     var em = Components.classes["@mozilla.org/extensions/manager;1"].
