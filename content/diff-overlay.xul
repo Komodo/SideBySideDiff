@@ -37,10 +37,8 @@
  * ***** END LICENSE BLOCK ***** -->
 
 <!DOCTYPE bindings PUBLIC "-//MOZILLA//DTD XBL V1.0//EN" "http://www.mozilla.org/xbl" [
-  <!ENTITY % bindingsDTD SYSTEM "chrome://komodo/locale/bindings.dtd">
-  %bindingsDTD;
-  <!ENTITY % dialogsDTD SYSTEM "chrome://komodo/locale/dialogs.dtd">
-  %dialogsDTD;
+  <!ENTITY % sbsdiffDTD SYSTEM "chrome://sbsdiff/locale/sbsdiff.dtd">
+  %sbsdiffDTD;
 ]>
 
 <?xml-stylesheet href="chrome://komodo/skin/global/global.css" type="text/css"?>

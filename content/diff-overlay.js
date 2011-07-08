@@ -80,17 +80,19 @@ function loadSBSDiff() {
     html = unicodeConverter.ConvertFromUnicode(html);
 
     // Get the extension's on-disk location.
-    var MY_ID = "sbsdiff@activestate.com";
-    var em = Components.classes["@mozilla.org/extensions/manager;1"].
-             getService(Components.interfaces.nsIExtensionManager);
-    var aFile = em.getInstallLocation(MY_ID).getItemFile(MY_ID, "content");
+    var aFile = Components.classes["@mozilla.org/file/directory_service;1"].
+                        getService( Components.interfaces.nsIProperties).
+                        get("ProfD", Components.interfaces.nsIFile);
+    aFile.append("extensions");
+    aFile.append("sbsdiff@activestate.com");
+    aFile.append("content");
     aFile.append("diff.html");
     if (aFile.exists())
         aFile.remove(false);
-    aFile.create(Components.interfaces.nsIFile.NORMAL_FILE_TYPE, 0660);
+    aFile.create(Components.interfaces.nsIFile.NORMAL_FILE_TYPE, parseInt("0660", 8));
     var stream = Components.classes["@mozilla.org/network/safe-file-output-stream;1"]
                            .createInstance(Components.interfaces.nsIFileOutputStream);
-    stream.init(aFile, 0x04 | 0x08 | 0x20, 0600, 0); // write, create, truncate
+    stream.init(aFile, 0x04 | 0x08 | 0x20, parseInt("0600", 8), 0); // write, create, truncate
     stream.write(html, html.length);
     if (stream instanceof Components.interfaces.nsISafeOutputStream) {
         stream.finish();

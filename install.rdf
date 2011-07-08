@@ -4,7 +4,8 @@
 
 	<Description about="urn:mozilla:install-manifest">
 	
-		<em:type>2</em:type> <!-- type=extension --> 
+		<em:type>2</em:type> <!-- type=extension -->
+		<em:unpack>true</em:unpack>
 		<em:id>sbsdiff@activestate.com</em:id>
 		<em:name>Side by Side Diffs</em:name>
 		<em:version>0.2.3</em:version>
@@ -20,7 +21,7 @@
 				<!-- Komodo IDE's uuid -->
 				<em:id>{36E66FA0-F259-11D9-850E-000D935D3368}</em:id>
 				<em:minVersion>5.2.0-alpha1</em:minVersion>
-				<em:maxVersion>6.*</em:maxVersion>
+				<em:maxVersion>7.*</em:maxVersion>
 			</Description>
 		</em:targetApplication>
 		<em:targetApplication>
@@ -28,7 +29,7 @@
 				<!-- Komodo Edit's uuid -->
 				<em:id>{b1042fb5-9e9c-11db-b107-000d935d3368}</em:id>
 				<em:minVersion>5.2.0-alpha1</em:minVersion>
-				<em:maxVersion>6.*</em:maxVersion>
+				<em:maxVersion>7.*</em:maxVersion>
 			</Description>
 		</em:targetApplication>
 
