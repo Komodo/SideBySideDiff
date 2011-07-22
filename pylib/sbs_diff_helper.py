@@ -539,10 +539,12 @@ class DiffItem(object):
         fd, tfname = tempfile.mkstemp()
         try:
             os.fdopen(fd, "wb").write(file_contents)
-            MY_ID = "sbsdiff@activestate.com";
-            em = components.classes["@mozilla.org/extensions/manager;1"].\
-                     getService(components.interfaces.nsIExtensionManager)
-            afile = em.getInstallLocation(MY_ID).getItemFile(MY_ID, "platform")
+            afile = components.classes["@mozilla.org/file/directory_service;1"]. \
+                                getService(components.interfaces.nsIProperties). \
+                                get("ProfD", components.interfaces.nsIFile)
+            afile.append("extensions")
+            afile.append("sbsdiff@activestate.com")
+            afile.append("platform")
             # Patch is not that common on installations, so it's # included by
             # default in the extension itself.
             if sys.platform.startswith("win"):
