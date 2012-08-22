@@ -622,9 +622,17 @@ class DiffItem(object):
         from django.core.management import setup_environ
         from django.template.loader import render_to_string
         setup_environ(reviewboard.settings)
-        return render_to_string('diffviewer/diff_file_fragment.html',
+        # Force encoding to "utf-8".
+        html = """<!doctype html>
+<head>
+  <meta charset="utf-8" />
+</head>
+
+"""
+        html += render_to_string('diffviewer/diff_file_fragment.html',
                                 { 'file': self,
                                   'collapseall': True })
+        return html
 
 
 
