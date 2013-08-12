@@ -41,8 +41,6 @@
   %sbsdiffDTD;
 ]>
 
-<?xml-stylesheet href="chrome://komodo/skin/global/global.css" type="text/css"?>
-
 <overlay id="sbs_diff_overlay"
          xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
