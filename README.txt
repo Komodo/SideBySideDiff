@@ -1,4 +1,0 @@
-Building:
-
-  koext build --unjarred
-
